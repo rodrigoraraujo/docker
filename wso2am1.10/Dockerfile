@@ -14,7 +14,7 @@ ENV JAVA_HOME /opt/jdk1.7.0_80
 COPY ${COMMOM_DIR}${JAVA_SDK} /opt/
 COPY ${COMMOM_DIR}${WSO2_PACK_NAME} /opt/
 
-RUN apt-get clean
+RUN apt-get clean all
 RUN apt-get update
 RUN apt-get install -y unzip
 RUN apt-get install -y curl
