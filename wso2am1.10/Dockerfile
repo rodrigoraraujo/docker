@@ -1,34 +1,26 @@
-FROM ubuntu:latest
+FROM rodrigoraraujo/jdk:1.7_80
 
 MAINTAINER Rodrigo Ramalho Araujo <rodrigoraraujo@gmail.com | @maxrodrigho>
 
-ARG COMMOM_DIR=/commom/
+ARG CONTEXT_DIR=/context/
 ARG WSO2_PACK_NAME=wso2am-1.10.0.zip
-ARG JAVA_SDK=jdk-7u80-linux-x64.tar.gz
+ARG WSO2_PORT_OFFSET=0
+ARG WSO2_FOLDER_NAME=wso2am
+ARG WSO2_BUNDLE_NAME=wso2am-1.10.0
 
-ENV WSO2_BUNDLE_NAME wso2am-1.10.0
-ENV WSO2_FOLDER_NAME wso2am
-ENV WSO2_PORT_OFFSET 1
-ENV JAVA_HOME /opt/jdk1.7.0_80
+ENV WSO2_BUNDLE_NAME ${WSO2_BUNDLE_NAME:-wso2am-1.10.0}
+ENV WSO2_FOLDER_NAME ${WSO2_FOLDER_NAME:-wso2am}
+ENV WSO2_PORT_OFFSET ${WSO2_PORT_OFFSET:-0}
 
-COPY ${COMMOM_DIR}${JAVA_SDK} /opt/
-COPY ${COMMOM_DIR}${WSO2_PACK_NAME} /opt/
+COPY ${CONTEXT_DIR}${WSO2_PACK_NAME} /opt/
 
-RUN apt-get clean all
-RUN apt-get update
-RUN apt-get install -y unzip
-RUN apt-get install -y curl
-RUN apt-get install -y vim
-RUN unzip /opt/$WSO2_BUNDLE_NAME.zip -d /opt/ > /opt/${WSO2_FOLDER_NAME}.listfiles; \
+RUN unzip -qq /opt/$WSO2_BUNDLE_NAME.zip -d /opt/; \
   mv /opt/${WSO2_BUNDLE_NAME} /opt/${WSO2_FOLDER_NAME}; \
-  rm /opt/${WSO2_BUNDLE_NAME}.zip; \
-  rm /opt/${WSO2_FOLDER_NAME}.listfiles;
-RUN tar zxvf /opt/${JAVA_SDK} -C /opt; \
-    rm /opt/${JAVA_SDK};
+  rm /opt/${WSO2_BUNDLE_NAME}.zip;  
 
 WORKDIR /opt/${WSO2_FOLDER_NAME}/bin/
 
-EXPOSE 9444 9764 8281 8244 7712 10398
+EXPOSE 9445 9765 8282 8245 7713 10399
 
 CMD sh ./wso2server.sh -DportOffset=${WSO2_PORT_OFFSET}
 
