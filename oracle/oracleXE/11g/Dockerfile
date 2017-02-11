@@ -48,10 +48,10 @@ ENV ORACLE_HOME /u01/app/oracle/product/11.2.0/xe
 ENV ORACLE_SID XE
 ENV PATH ${PATH}:${ORACLE_HOME}:${ORACLE_HOME}/bin
 
-# !!! Don't forget to set --shm-size=<at least 2g> on creating either container command run or build. Otherwise the command bellow doesn't work !!!
+# !!! Don't forget to set --shm-size=<at least 2g> on creating both container command run and build. Otherwise the command bellow doesn't work !!!
 RUN /etc/init.d/oracle-xe configure responseFile=${ORACLE_INST}Disk1/response/xe.rsp
 
 RUN rm -rf ${ORACLE_INST}
 
-CMD /etc/init.d/oracle-xe start
+CMD /etc/init.d/oracle-xe start && /bin/bash
 
