@@ -30,7 +30,7 @@ RUN yum install -y curl
 RUN yum install -y libaio
 RUN yum install -y unzip
 RUN yum install -y bc
-RUN yum provides -y */netstat
+RUN yum install -y deltarpm
 RUN unzip -qq ${ORACLE_INST}oracle-xe-11.2.0-1.0.x86_64.rpm.zip -d ${ORACLE_INST}
 RUN mv ${ORACLE_INST}Disk1/response/xe.rsp ${ORACLE_INST}xe.rsp
 RUN rpm -ivh ${ORACLE_INST}Disk1/oracle-xe-11.2.0-1.0.x86_64.rpm
