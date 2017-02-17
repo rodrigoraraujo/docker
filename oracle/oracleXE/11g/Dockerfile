@@ -18,7 +18,7 @@ ARG ORACLE_DBENABLE=y
 # Oracle Database XE install pack location.
 ARG ORACLE_XE_PACK=/context/oracle-xe-11.2.0-1.0.x86_64.rpm.zip
 
-# Oracle package installation folder
+# Oracle package destination copy temporary in container
 ARG ORACLE_INST=/home/downloads/
 
 COPY ${ORACLE_XE_PACK} ${ORACLE_INST}
