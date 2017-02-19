@@ -31,7 +31,23 @@ RUN sed -i "s;<!--ThriftServerHost>localhost</ThriftServerHost-->;<ThriftServerH
 RUN sed -i "s;\${carbon.local.ip};$WSO2_SERVER_NAME;g" ${APIM_HOME}/repository/conf/api-manager.xml
 RUN sed -i "s;<!--<parameter name=\"HostnameVerifier\">DefaultAndLocalhost</parameter>-->;<parameter name=\"HostnameVerifier\">AllowAll</parameter>;g" ${APIM_HOME}/repository/conf/axis2/axis2.xml
 
-EXPOSE 9443 9763 8280 8243 7711 10397
+ENV HTTPS_PORT 443
+ENV HTTP_PORT 80
+ENV HTTPS_MNGMNT_PORT 9443
+ENV HTTP_MNGMNT_PORT 9763
+ENV API_HTTPS_TRANS 8280
+ENV API_HTTP_TRANS 8243
+ENV API_THRIFT_SSL 7711
+ENV API_THRIFT_CLIENT 10397
+
+RUN export HTTPS_MNGMNT_PORT=$((HTTPS_MNGMNT_PORT+$WSO2_PORT_OFFSET))
+RUN export HTTP_MNGMNT_PORT=$((HTTP_MNGMNT_PORT+$WSO2_PORT_OFFSET))
+RUN export API_HTTPS_TRANS=$((API_HTTPS_TRANS+$WSO2_PORT_OFFSET))
+RUN export API_HTTP_TRANS=$((API_HTTP_TRANS+$WSO2_PORT_OFFSET))
+RUN export API_THRIFT_SSL=$((API_THRIFT_SSL+$WSO2_PORT_OFFSET))
+RUN export API_THRIFT_CLIENT=$((API_THRIFT_CLIENT+$WSO2_PORT_OFFSET))
+
+EXPOSE $HTTPS_MNGMNT_PORT $HTTP_MNGMNT_PORT $API_HTTPS_TRANS $API_HTTP_TRANS $API_THRIFT_SSL $API_THRIFT_CLIENT $HTTPS_PORT $HTTP_PORT
 
 CMD echo $(hostname -i) $WSO2_SERVER_NAME >> /etc/hosts; \
     sh ./wso2server.sh -DportOffset=${WSO2_PORT_OFFSET}
