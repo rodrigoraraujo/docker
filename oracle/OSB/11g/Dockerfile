@@ -8,6 +8,7 @@ ARG JAVA_HOME=/opt/jdk1.7.0_80/
 
 ENV JAVA_SDK ${JAVA_SDK:-jdk-7u80-linux-x64.tar.gz}
 ENV JAVA_HOME ${JAVA_HOME:-/opt/jdk1.7.0_80}
+ENV PATH ${PATH}:${JAVA_HOME}:${JAVA_HOME}/bin
 
 RUN yum update -y -q
 RUN yum install -y deltarpm
