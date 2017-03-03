@@ -20,7 +20,7 @@ RUN unzip -qq /opt/$WSO2_BUNDLE_NAME.zip -d /opt/; \
   mv /opt/${WSO2_BUNDLE_NAME} /opt/${WSO2_FOLDER_NAME}; \
   rm /opt/${WSO2_BUNDLE_NAME}.zip;  
 
-COPY ${CONTEXT_DIR}${MYSQL_CONNECTOR} /opt/
+COPY ${CONTEXT_DIR}${MYSQL_CONNECTOR} /opt/${WSO2_FOLDER_NAME}/repository/components/lib/
 
 WORKDIR /opt/${WSO2_FOLDER_NAME}/bin/
 
